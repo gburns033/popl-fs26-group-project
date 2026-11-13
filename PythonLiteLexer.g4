@@ -23,9 +23,10 @@ LBRACK : '[';
 RBRACK : ']';
 COMMA  : ',';
 
-FLOAT  : [0-9]+ '.' [0-9]+;
+FLOAT  : [0-9]+ '.' [0-9]* | '.' [0-9]+;
 INT    : [0-9]+;
-STRING : '"' ~["\r\n]* '"' | '\'' ~['\r\n]* '\'';
+// allows \" and \' escapes
+STRING : '"' (~["\\\r\n] | '\\' .)* '"' | '\'' (~['\\\r\n] | '\\' .)* '\'';
 NAME   : [a-zA-Z_] [a-zA-Z_0-9]*;
 
 NEWLINE : '\r'? '\n';
