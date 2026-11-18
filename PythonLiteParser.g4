@@ -10,6 +10,16 @@ program
 
 stmt
     : assignment
+    | ifStmt
+    ;
+
+ifStmt
+    : IF expression COLON block (NEWLINE ELIF expression COLON block)* (NEWLINE ELSE COLON block)?
+    ;
+
+// the body of an if or elif or else
+block
+    : (INDENTED_NEWLINE assignment)+
     ;
 
 assignment
@@ -24,8 +34,13 @@ assignmentOperator
     | SLASH_EQ
     ;
 
+// operators higher in the list are applied first (a < b and c parses as (a < b) and c)
 expression
     : additive
+    | expression (LESS | LESS_EQ | GREATER | GREATER_EQ | EQ | NOT_EQ) expression
+    | NOT expression
+    | expression AND expression
+    | expression OR expression
     ;
 
 additive
